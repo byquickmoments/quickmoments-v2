@@ -60,7 +60,7 @@ function ReelSlide({ src, label, cat, isActive }: ReelData & { isActive: boolean
 
   return (
     <div
-      className="relative w-full flex-shrink-0 snap-start overflow-hidden bg-black"
+      className="relative w-full max-w-full flex-shrink-0 snap-start overflow-hidden bg-black"
       style={{ height: 'calc(100svh - 4rem)' }}
       onClick={handleDoubleTap}
     >
@@ -208,7 +208,7 @@ export default function ReelsPlayer({ videos }: { videos: ReelData[] }) {
   return (
     <div
       ref={containerRef}
-      className="overflow-y-scroll snap-y snap-mandatory"
+      className="w-full max-w-full overflow-y-scroll overflow-x-hidden snap-y snap-mandatory"
       style={{ height: 'calc(100svh - 4rem)', scrollbarWidth: 'none', msOverflowStyle: 'none' }}
     >
       <style>{`div::-webkit-scrollbar { display: none; }`}</style>

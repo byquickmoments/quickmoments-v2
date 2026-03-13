@@ -91,9 +91,9 @@ function DesktopReelCard({ src, label, cat }: { src: string; label: string; cat:
 
 export default function Portfolio() {
   return (
-    <section id="work">
+    <section id="work" className="w-full max-w-full overflow-x-hidden">
       {/* ── Mobile: Full-screen Instagram Reels ── */}
-      <div className="md:hidden">
+      <div className="md:hidden w-full max-w-full overflow-x-hidden">
         {/* Section header */}
         <div className="text-center py-10 px-5">
           <p className="text-[#E8392A] font-semibold text-sm uppercase tracking-widest mb-2">Portfolio</p>
