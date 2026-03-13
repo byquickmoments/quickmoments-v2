@@ -34,14 +34,14 @@ body {
 /* Safe area for iPhones */
 @supports (padding-bottom: env(safe-area-inset-bottom)) {
   .safe-area-pb {
-    padding-bottom: max(4rem, env(safe-area-inset-bottom));
+    padding-bottom: calc(5.5rem + env(safe-area-inset-bottom));
   }
 }
 
 /* Bottom nav clearance on mobile */
 @media (max-width: 767px) {
   body {
-    padding-bottom: 4rem;
+    padding-bottom: 5.5rem;
   }
 }
 
