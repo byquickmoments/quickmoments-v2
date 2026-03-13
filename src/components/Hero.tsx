@@ -5,8 +5,8 @@ export default function Hero() {
 
       {/* Layered ambient lighting */}
       <div className="pointer-events-none absolute inset-0 overflow-hidden">
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[500px] bg-blue-950/25 rounded-full blur-[140px]" />
-        <div className="absolute top-1/3 left-1/2 -translate-x-1/2 w-[400px] h-[300px] bg-indigo-950/20 rounded-full blur-[100px]" />
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[min(600px,100vw)] h-[500px] bg-blue-950/25 rounded-full blur-[140px]" />
+        <div className="absolute top-1/3 left-1/2 -translate-x-1/2 w-[min(400px,100vw)] h-[300px] bg-indigo-950/20 rounded-full blur-[100px]" />
       </div>
 
       {/* Subtle dot grid */}

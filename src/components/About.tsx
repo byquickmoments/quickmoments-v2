@@ -3,7 +3,7 @@ export default function About() {
     <>
       {/* About / SEO Section */}
       <section className="py-12 md:py-20 px-4 sm:px-5 border-t border-white/8 w-full overflow-hidden">
-        <div className="max-w-3xl mx-auto text-center">
+        <div className="relative max-w-3xl mx-auto text-center">
           <h2 className="text-3xl md:text-4xl font-extrabold tracking-tight text-white mb-6">
             Instant Reel Makers in Hyderabad
           </h2>
@@ -19,9 +19,9 @@ export default function About() {
 
       {/* Final CTA Section */}
       <section className="py-16 md:py-28 px-4 sm:px-5 w-full overflow-hidden">
-        <div className="max-w-3xl mx-auto text-center">
+        <div className="relative max-w-3xl mx-auto text-center">
           {/* Glow */}
-          <div className="pointer-events-none absolute left-1/2 -translate-x-1/2 w-[600px] h-[300px] bg-red-900/20 rounded-full blur-[100px] -z-10" />
+          <div className="pointer-events-none absolute left-1/2 -translate-x-1/2 w-[min(600px,100vw)] h-[300px] bg-red-900/20 rounded-full blur-[100px] -z-10" />
 
           <h2 className="text-4xl md:text-5xl font-extrabold tracking-tight text-white mb-5">
             Ready to start?
