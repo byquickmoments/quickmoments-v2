@@ -1,6 +1,6 @@
 export default function Hero() {
   return (
-    <section className="relative min-h-screen flex flex-col items-center justify-center px-5 overflow-hidden
+    <section className="relative min-h-screen flex flex-col items-center justify-center px-4 sm:px-5 overflow-hidden w-full max-w-full
       pt-10 pb-10 md:pt-24 md:pb-16">
 
       {/* Layered ambient lighting */}
@@ -69,7 +69,7 @@ export default function Hero() {
         </div>
 
         {/* Stats row */}
-        <div className="flex items-center gap-6 mt-10 pt-8 border-t border-white/[0.07] w-full justify-center">
+        <div className="flex flex-wrap items-center gap-4 sm:gap-6 mt-10 pt-8 border-t border-white/[0.07] w-full justify-center">
           {[
             { value: "200+", label: "Reels Delivered" },
             { value: "48h", label: "Avg. Turnaround" },
@@ -124,7 +124,7 @@ export default function Hero() {
           </div>
         </div>
         {/* Card shadow blur */}
-        <div className="absolute -inset-4 bg-red-900/10 rounded-3xl blur-2xl -z-10" />
+        <div className="absolute -inset-2 md:-inset-4 bg-red-900/10 rounded-3xl blur-2xl -z-10" />
       </div>
     </section>
   );

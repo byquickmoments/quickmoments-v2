@@ -31,7 +31,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className="antialiased pb-safe">
+      <body className="antialiased safe-area-pb overflow-x-hidden">
         {children}
         {/* Instagram-style bottom nav — mobile only */}
         <BottomNav />

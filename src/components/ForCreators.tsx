@@ -31,7 +31,7 @@ const benefits = [
 
 export default function ForCreators() {
   return (
-    <section id="for-creators" className="py-24 px-5 bg-zinc-950/50 border-t border-white/8">
+    <section id="for-creators" className="py-16 md:py-24 px-4 sm:px-5 bg-zinc-950/50 border-t border-white/8 w-full overflow-hidden">
       <div className="max-w-6xl mx-auto">
         {/* Header */}
         <div className="text-center mb-16">
@@ -78,7 +78,7 @@ export default function ForCreators() {
         </div>
 
         {/* Bottom CTA */}
-        <div className="mt-16 text-center rounded-2xl border border-white/8 bg-white/[0.03] p-12">
+        <div className="mt-16 text-center rounded-2xl border border-white/8 bg-white/[0.03] p-8 md:p-12">
           <h3 className="text-3xl md:text-4xl font-extrabold text-white mb-4">
             Ready to join the team?
           </h3>

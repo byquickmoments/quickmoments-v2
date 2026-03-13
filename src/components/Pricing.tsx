@@ -44,7 +44,7 @@ function Check({ red }: { red?: boolean }) {
 
 export default function Pricing() {
   return (
-    <section id="pricing" className="py-20 md:py-28 px-5">
+    <section id="pricing" className="py-16 md:py-28 px-4 sm:px-5 w-full overflow-hidden">
       <div className="max-w-6xl mx-auto">
         {/* Header */}
         <div className="mb-12 md:mb-16">
@@ -57,8 +57,8 @@ export default function Pricing() {
           </p>
         </div>
 
-        {/* Cards — 2-col on mobile, 4-col on desktop */}
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-5">
+        {/* Cards — 1-col on mobile, 4-col on desktop */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-5">
           {plans.map((plan) => (
             <div
               key={plan.name}
