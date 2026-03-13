@@ -1,4 +1,5 @@
 "use client";
+
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -28,7 +29,7 @@ const navItems = [
     id: "book",
     label: "Book",
     href: "https://wa.me/917075807622",
-    icon: (_active: boolean) => (
+    icon: () => (
       <svg className="w-[22px] h-[22px] text-white" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
         <path strokeLinecap="round" strokeLinejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
       </svg>
@@ -63,54 +64,55 @@ export default function BottomNav() {
 
   useEffect(() => {
     if (pathname !== "/") {
-      setActiveSection(
-        pathname === "/reels" ? "work" :
-        pathname === "/partners" ? "creators" : "home"
-      );
+      if (pathname === "/reels") setActiveSection("work");
+      else if (pathname === "/partners") setActiveSection("creators");
+      else setActiveSection("home");
       return;
     }
 
-    const sections = [
-      { id: "work", label: "work" },
-      { id: "services", label: "services" },
-      { id: "pricing", label: "pricing" },
-      { id: "for-creators", label: "creators" },
-    ];
+    const sections = ["services", "work", "pricing", "for-creators"];
 
-    const observers: IntersectionObserver[] = [];
-    sections.forEach(({ id, label }) => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setActiveSection(entry.target.id);
+          }
+        });
+      },
+      { threshold: 0.35 }
+    );
+
+    sections.forEach((id) => {
       const el = document.getElementById(id);
-      if (!el) return;
-      const observer = new IntersectionObserver(
-        ([entry]) => { if (entry.isIntersecting) setActiveSection(label); },
-        { threshold: 0.35 }
-      );
-      observer.observe(el);
-      observers.push(observer);
+      if (el) observer.observe(el);
     });
 
     const handleScroll = () => {
-      if (window.scrollY < 300) setActiveSection("home");
+      if (window.scrollY < 200) setActiveSection("home");
     };
-    window.addEventListener("scroll", handleScroll, { passive: true });
+
+    window.addEventListener("scroll", handleScroll);
+
     return () => {
-      observers.forEach((o) => o.disconnect());
+      observer.disconnect();
       window.removeEventListener("scroll", handleScroll);
     };
   }, [pathname]);
 
   return (
-    <nav className="md:hidden fixed bottom-0 left-0 right-0 z-50 w-full overflow-hidden">
-      {/* Frosted glass bar */}
-      <div className="bg-black/85 backdrop-blur-2xl border-t border-white/[0.08] px-1 sm:px-2 w-full"
-        style={{ paddingBottom: "max(8px, env(safe-area-inset-bottom))" }}>
-        <div className="flex items-center justify-between sm:justify-around h-14 w-full">
+    <nav className="md:hidden fixed bottom-0 inset-x-0 z-50">
+      <div className="bg-black/90 backdrop-blur-xl border-t border-white/10 px-2 py-2">
+        <div className="flex items-center justify-between h-14 max-w-md mx-auto">
+
           {navItems.map((item) => {
             const isExternal = item.href.startsWith("http");
             const isActive =
-              item.id === "creators" ? pathname === "/partners" :
-              item.id === "work" ? pathname === "/reels" :
-              item.id === activeSection;
+              item.id === "creators"
+                ? pathname === "/partners"
+                : item.id === "work"
+                ? pathname === "/reels"
+                : item.id === activeSection;
 
             if (item.isCenter) {
               return (
@@ -121,12 +123,12 @@ export default function BottomNav() {
                   rel="noopener noreferrer"
                   className="flex flex-col items-center -mt-5 nav-tap"
                 >
-                  <div className="w-[52px] h-[52px] rounded-full bg-[#E8392A] flex items-center justify-center
-                    shadow-lg shadow-red-900/60 border-[3px] border-black
-                    hover:bg-[#d02f21] active:scale-95 transition-all duration-150">
+                  <div className="w-[52px] h-[52px] rounded-full bg-[#E8392A] flex items-center justify-center border-4 border-black shadow-lg">
                     {item.icon(false)}
                   </div>
-                  <span className="text-white/50 text-[9px] font-semibold mt-0.5 tracking-wide uppercase">{item.label}</span>
+                  <span className="text-white/60 text-[9px] font-semibold mt-1 uppercase">
+                    {item.label}
+                  </span>
                 </a>
               );
             }
@@ -140,21 +142,23 @@ export default function BottomNav() {
               <Tag
                 key={item.id}
                 {...(linkProps as any)}
-                className="relative flex flex-col items-center gap-0.5 sm:gap-1 py-1 px-1 sm:px-3 nav-tap"
+                className="flex flex-col items-center gap-1 py-1 px-2 nav-tap"
               >
-                {/* Active pill highlight */}
-                {isActive && (
-                  <span className="absolute top-0 left-1/2 -translate-x-1/2 h-[2px] w-5 rounded-full bg-white" />
-                )}
-                <span className={`transition-all duration-200 ${isActive ? "text-white scale-105" : "text-white/35"}`}>
+                <span className={isActive ? "text-white" : "text-white/40"}>
                   {item.icon(isActive)}
                 </span>
-                <span className={`text-[9px] font-semibold tracking-wide uppercase transition-colors duration-200 ${isActive ? "text-white" : "text-white/35"}`}>
+
+                <span
+                  className={`text-[9px] font-semibold uppercase ${
+                    isActive ? "text-white" : "text-white/40"
+                  }`}
+                >
                   {item.label}
                 </span>
               </Tag>
             );
           })}
+
         </div>
       </div>
     </nav>
