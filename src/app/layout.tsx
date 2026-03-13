@@ -1,37 +1,26 @@
-useEffect(() => {
-  if (pathname !== "/") {
-    if (pathname === "/reels") setActiveSection("work");
-    else if (pathname === "/partners") setActiveSection("creators");
-    else setActiveSection("home");
-    return;
-  }
+import type { Metadata } from "next";
+import "./globals.css";
+import BottomNav from "@/components/BottomNav";
 
-  const sections = ["home", "services", "work", "pricing", "for-creators", "about"];
+export const metadata: Metadata = {
+  title: "Quick Moments | Instant Reel Makers in Hyderabad",
+  description:
+    "Quick Moments is a Hyderabad-only instant reels maker service for brands, events, and creators.",
+};
 
-  const observer = new IntersectionObserver(
-    (entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          setActiveSection(entry.target.id);
-        }
-      });
-    },
-    { threshold: 0.5 }
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  return (
+    <html lang="en">
+      <body className="antialiased bg-black">
+        {children}
+
+        {/* Mobile Bottom Navigation */}
+        <BottomNav />
+      </body>
+    </html>
   );
-
-  sections.forEach((id) => {
-    const el = document.getElementById(id);
-    if (el) observer.observe(el);
-  });
-
-  const handleScroll = () => {
-    if (window.scrollY < 200) setActiveSection("home");
-  };
-
-  window.addEventListener("scroll", handleScroll);
-
-  return () => {
-    observer.disconnect();
-    window.removeEventListener("scroll", handleScroll);
-  };
-}, [pathname]);
+}
