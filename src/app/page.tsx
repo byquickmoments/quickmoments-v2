@@ -9,15 +9,36 @@ import Footer from "@/components/Footer";
 
 export default function Home() {
   return (
-    <main className="bg-black min-h-screen overflow-x-hidden w-full max-w-full">
+    <main className="bg-black min-h-screen pb-24">
+
       <Header />
-      <Hero />
-      <Services />
-      <Portfolio />
-      <Pricing />
-      <ForCreators />
-      <About />
+
+      <section id="home">
+        <Hero />
+      </section>
+
+      <section id="services" className="scroll-mt-24">
+        <Services />
+      </section>
+
+      <section id="work" className="scroll-mt-24">
+        <Portfolio />
+      </section>
+
+      <section id="pricing" className="scroll-mt-24">
+        <Pricing />
+      </section>
+
+      <section id="for-creators" className="scroll-mt-24">
+        <ForCreators />
+      </section>
+
+      <section id="about" className="scroll-mt-24">
+        <About />
+      </section>
+
       <Footer />
+
     </main>
   );
 }
