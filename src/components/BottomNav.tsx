@@ -20,7 +20,7 @@ const navItems = [
         <path
           strokeLinecap="round"
           strokeLinejoin="round"
-          d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"
+          d="M3 12l2-2 7-7 7 7 2 2M5 10v10a1 1 0 001 1h3m8 0h3a1 1 0 001-1V10"
         />
       </svg>
     ),
@@ -37,11 +37,9 @@ const navItems = [
         strokeWidth={active ? 0 : 1.9}
         viewBox="0 0 24 24"
       >
-        <path
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          d="M7 4v16M17 4v16M3 8h4m10 0h4M3 12h18M3 16h4m10 0h4M4 20h16a1 1 0 001-1V5a1 1 0 00-1-1H4a1 1 0 00-1 1v14a1 1 0 001 1z"
-        />
+        <rect x="3" y="4" width="18" height="16" rx="2" />
+        <line x1="7" y1="4" x2="7" y2="20" />
+        <line x1="17" y1="4" x2="17" y2="20" />
       </svg>
     ),
   },
@@ -98,11 +96,8 @@ const navItems = [
         strokeWidth={active ? 0 : 1.9}
         viewBox="0 0 24 24"
       >
-        <path
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
-        />
+        <circle cx="12" cy="7" r="4" />
+        <path d="M5.5 21a6.5 6.5 0 0113 0" />
       </svg>
     ),
   },
@@ -120,7 +115,14 @@ export default function BottomNav() {
       return;
     }
 
-    const sections = ["services", "work", "pricing", "for-creators"];
+    const sections = [
+      "home",
+      "services",
+      "work",
+      "pricing",
+      "for-creators",
+      "about",
+    ];
 
     const observer = new IntersectionObserver(
       (entries) => {
@@ -130,7 +132,7 @@ export default function BottomNav() {
           }
         });
       },
-      { threshold: 0.35 }
+      { threshold: 0.5 }
     );
 
     sections.forEach((id) => {
@@ -151,8 +153,8 @@ export default function BottomNav() {
   }, [pathname]);
 
   return (
-<nav className="md:hidden fixed bottom-0 inset-x-0 z-50 pb-[env(safe-area-inset-bottom)]">
-<div className="bg-black/90 backdrop-blur-xl border-t border-white/10 px-2 py-2">
+    <nav className="md:hidden fixed bottom-0 inset-x-0 z-[60] pb-[env(safe-area-inset-bottom)]">
+      <div className="bg-black/90 backdrop-blur-xl border-t border-white/10 px-2 py-2">
         <div className="flex items-center justify-between h-14 w-full max-w-md mx-auto">
           {navItems.map((item) => {
             const isExternal = item.href.startsWith("http");
@@ -171,11 +173,12 @@ export default function BottomNav() {
                   href={item.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex flex-col items-center -mt-5 nav-tap"
+                  className="flex flex-col items-center -mt-5"
                 >
                   <div className="w-[52px] h-[52px] rounded-full bg-[#E8392A] flex items-center justify-center border-4 border-black shadow-lg">
                     {item.icon(false)}
                   </div>
+
                   <span className="text-white/60 text-[9px] font-semibold mt-1 uppercase">
                     {item.label}
                   </span>
@@ -184,18 +187,18 @@ export default function BottomNav() {
             }
 
             const Tag = isExternal ? "a" : Link;
-            const linkProps = isExternal
+            const props = isExternal
               ? { href: item.href, target: "_blank", rel: "noopener noreferrer" }
               : { href: item.href };
 
             return (
               <Tag
                 key={item.id}
-                {...(linkProps as any)}
-                className="flex flex-col items-center gap-1 py-1 px-2 nav-tap"
+                {...(props as any)}
+                className="flex flex-col items-center gap-1 py-1 px-2"
               >
                 <span
-                  className={`transition-all duration-200 ${
+                  className={`transition-all ${
                     isActive ? "text-white" : "text-white/40"
                   }`}
                 >
