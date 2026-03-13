@@ -100,11 +100,11 @@ export default function BottomNav() {
   }, [pathname]);
 
   return (
-    <nav className="md:hidden fixed bottom-0 left-0 right-0 z-50">
+    <nav className="md:hidden fixed bottom-0 left-0 right-0 z-50 w-full overflow-hidden">
       {/* Frosted glass bar */}
-      <div className="bg-black/85 backdrop-blur-2xl border-t border-white/[0.08] px-2"
+      <div className="bg-black/85 backdrop-blur-2xl border-t border-white/[0.08] px-1 sm:px-2 w-full"
         style={{ paddingBottom: "max(8px, env(safe-area-inset-bottom))" }}>
-        <div className="flex items-center justify-around h-14">
+        <div className="flex items-center justify-between sm:justify-around h-14 w-full">
           {navItems.map((item) => {
             const isExternal = item.href.startsWith("http");
             const isActive =
@@ -140,7 +140,7 @@ export default function BottomNav() {
               <Tag
                 key={item.id}
                 {...(linkProps as any)}
-                className="relative flex flex-col items-center gap-1 py-1 px-3 nav-tap"
+                className="relative flex flex-col items-center gap-0.5 sm:gap-1 py-1 px-1 sm:px-3 nav-tap"
               >
                 {/* Active pill highlight */}
                 {isActive && (
