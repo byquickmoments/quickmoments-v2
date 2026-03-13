@@ -1,5 +1,6 @@
 "use client";
-import { useState, useEffect } from "react";
+
+import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
@@ -28,8 +29,8 @@ const navItems = [
     id: "book",
     label: "Book",
     href: "https://wa.me/917075807622",
-    icon: (_active: boolean) => (
-      <svg className="w-[22px] h-[22px] text-white" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
+    icon: (active: boolean) => (
+      <svg className={`w-[22px] h-[22px] ${active ? "text-white" : "text-white"}`} fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
         <path strokeLinecap="round" strokeLinejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
       </svg>
     ),
@@ -61,14 +62,14 @@ export default function BottomNav() {
   const pathname = usePathname();
   const [activeSection, setActiveSection] = useState("home");
 
+  const routeActiveSection = useMemo(() => {
+    if (pathname === "/reels") return "work";
+    if (pathname === "/partners") return "creators";
+    return "home";
+  }, [pathname]);
+
   useEffect(() => {
-    if (pathname !== "/") {
-      setActiveSection(
-        pathname === "/reels" ? "work" :
-        pathname === "/partners" ? "creators" : "home"
-      );
-      return;
-    }
+    if (pathname !== "/") return;
 
     const sections = [
       { id: "work", label: "work" },
@@ -81,10 +82,9 @@ export default function BottomNav() {
     sections.forEach(({ id, label }) => {
       const el = document.getElementById(id);
       if (!el) return;
-      const observer = new IntersectionObserver(
-        ([entry]) => { if (entry.isIntersecting) setActiveSection(label); },
-        { threshold: 0.35 }
-      );
+      const observer = new IntersectionObserver(([entry]) => {
+        if (entry.isIntersecting) setActiveSection(label);
+      }, { threshold: 0.35 });
       observer.observe(el);
       observers.push(observer);
     });
@@ -92,25 +92,30 @@ export default function BottomNav() {
     const handleScroll = () => {
       if (window.scrollY < 300) setActiveSection("home");
     };
+
     window.addEventListener("scroll", handleScroll, { passive: true });
+
     return () => {
-      observers.forEach((o) => o.disconnect());
+      observers.forEach((observer) => observer.disconnect());
       window.removeEventListener("scroll", handleScroll);
     };
   }, [pathname]);
 
+  const currentSection = pathname === "/" ? activeSection : routeActiveSection;
+
   return (
-    <nav className="md:hidden fixed bottom-0 left-0 right-0 z-50 w-full overflow-hidden">
-      {/* Frosted glass bar */}
-      <div className="bg-black/85 backdrop-blur-2xl border-t border-white/[0.08] px-1 sm:px-2 w-full"
-        style={{ paddingBottom: "max(8px, env(safe-area-inset-bottom))" }}>
-        <div className="flex items-center justify-between sm:justify-around h-14 w-full">
+    <nav className="md:hidden fixed bottom-0 left-0 right-0 z-50 w-full">
+      <div
+        className="bg-black/90 backdrop-blur-2xl border-t border-white/[0.08] px-2 w-full"
+        style={{ paddingBottom: "max(8px, env(safe-area-inset-bottom))" }}
+      >
+        <div className="grid grid-cols-5 items-end h-16 w-full max-w-md mx-auto gap-1">
           {navItems.map((item) => {
             const isExternal = item.href.startsWith("http");
             const isActive =
               item.id === "creators" ? pathname === "/partners" :
               item.id === "work" ? pathname === "/reels" :
-              item.id === activeSection;
+              item.id === currentSection;
 
             if (item.isCenter) {
               return (
@@ -119,40 +124,54 @@ export default function BottomNav() {
                   href={item.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex flex-col items-center -mt-5 nav-tap"
+                  className="flex flex-col items-center -mt-4 nav-tap"
                 >
-                  <div className="w-[52px] h-[52px] rounded-full bg-[#E8392A] flex items-center justify-center
-                    shadow-lg shadow-red-900/60 border-[3px] border-black
-                    hover:bg-[#d02f21] active:scale-95 transition-all duration-150">
+                  <div className="w-[50px] h-[50px] rounded-full bg-[#E8392A] flex items-center justify-center shadow-lg shadow-red-900/60 border-[3px] border-black hover:bg-[#d02f21] active:scale-95 transition-all duration-150">
                     {item.icon(false)}
                   </div>
-                  <span className="text-white/50 text-[9px] font-semibold mt-0.5 tracking-wide uppercase">{item.label}</span>
+                  <span className="text-white/60 text-[9px] font-semibold mt-0.5 tracking-wide uppercase leading-none">{item.label}</span>
                 </a>
               );
             }
 
-            const Tag = isExternal ? "a" : Link;
-            const linkProps = isExternal
-              ? { href: item.href, target: "_blank", rel: "noopener noreferrer" }
-              : { href: item.href };
+            if (isExternal) {
+              return (
+                <a
+                  key={item.id}
+                  href={item.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="relative min-w-0 flex flex-col items-center justify-center gap-0.5 py-1 nav-tap"
+                >
+                  {isActive && (
+                    <span className="absolute top-0 left-1/2 -translate-x-1/2 h-[2px] w-5 rounded-full bg-white" />
+                  )}
+                  <span className={`transition-all duration-200 ${isActive ? "text-white scale-105" : "text-white/35"}`}>
+                    {item.icon(isActive)}
+                  </span>
+                  <span className={`text-[9px] font-semibold tracking-wide uppercase transition-colors duration-200 leading-none ${isActive ? "text-white" : "text-white/35"}`}>
+                    {item.label}
+                  </span>
+                </a>
+              );
+            }
 
             return (
-              <Tag
+              <Link
                 key={item.id}
-                {...(linkProps as any)}
-                className="relative flex flex-col items-center gap-0.5 sm:gap-1 py-1 px-1 sm:px-3 nav-tap"
+                href={item.href}
+                className="relative min-w-0 flex flex-col items-center justify-center gap-0.5 py-1 nav-tap"
               >
-                {/* Active pill highlight */}
                 {isActive && (
                   <span className="absolute top-0 left-1/2 -translate-x-1/2 h-[2px] w-5 rounded-full bg-white" />
                 )}
                 <span className={`transition-all duration-200 ${isActive ? "text-white scale-105" : "text-white/35"}`}>
                   {item.icon(isActive)}
                 </span>
-                <span className={`text-[9px] font-semibold tracking-wide uppercase transition-colors duration-200 ${isActive ? "text-white" : "text-white/35"}`}>
+                <span className={`text-[9px] font-semibold tracking-wide uppercase transition-colors duration-200 leading-none ${isActive ? "text-white" : "text-white/35"}`}>
                   {item.label}
                 </span>
-              </Tag>
+              </Link>
             );
           })}
         </div>
