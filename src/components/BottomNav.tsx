@@ -151,8 +151,8 @@ export default function BottomNav() {
   }, [pathname]);
 
   return (
-    <nav className="md:hidden fixed bottom-0 inset-x-0 z-50">
-      <div className="bg-black/90 backdrop-blur-xl border-t border-white/10 px-2 py-2">
+<nav className="md:hidden fixed bottom-0 inset-x-0 z-50 pb-[env(safe-area-inset-bottom)]">
+<div className="bg-black/90 backdrop-blur-xl border-t border-white/10 px-2 py-2">
         <div className="flex items-center justify-between h-14 w-full max-w-md mx-auto">
           {navItems.map((item) => {
             const isExternal = item.href.startsWith("http");
